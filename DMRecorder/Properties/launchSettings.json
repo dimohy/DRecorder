@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "DMRecorder": {
+      "commandName": "MsixPackage"
+    }
+  }
+}

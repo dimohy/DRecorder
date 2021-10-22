@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>DMRecorder</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
+    <UseWinUI>true</UseWinUI>
+    <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="RecordPanel.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0-rc.2.21480.5" />
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-preview2" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.196" />
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DMRecorder.Core\DMRecorder.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="RecordPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>
