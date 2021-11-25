@@ -17,69 +17,52 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
-        <CommandBar Grid.Row="0" IsOpen="False" Background="Transparent" OverflowButtonVisibility="Collapsed" Opacity="0.9">
-            <!-- Play -->
-            <AppBarToggleButton Command="{x:Bind ViewModel.RecordCommand}" IsChecked="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=Play, Mode=OneWay}">
-                <AppBarToggleButton.CommandParameter>
-                    <core:RecordState>Play</core:RecordState>
-                </AppBarToggleButton.CommandParameter>
-                <AppBarToggleButton.Icon>
-                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe768;" />
-                </AppBarToggleButton.Icon>
-            </AppBarToggleButton>
-            <!-- Stop -->
-            <AppBarButton Command="{x:Bind ViewModel.RecordCommand}">
-                <AppBarButton.CommandParameter>
-                    <core:RecordState>Stop</core:RecordState>
-                </AppBarButton.CommandParameter>
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe71a;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
 
-            <AppBarSeparator />
+        <Viewbox Grid.Row="0" Width="190">
+            <CommandBar IsOpen="False" Background="Transparent" OverflowButtonVisibility="Collapsed">
+                <!-- Play -->
+                <AppBarToggleButton Command="{x:Bind ViewModel.RecordCommand}" IsChecked="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=Play, Mode=OneWay}" IsCompact="True">
+                    <AppBarToggleButton.CommandParameter>
+                        <core:RecordState>Play</core:RecordState>
+                    </AppBarToggleButton.CommandParameter>
+                    <AppBarToggleButton.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe768;" />
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+                <!-- Stop -->
+                <AppBarButton Command="{x:Bind ViewModel.RecordCommand}" IsCompact="True">
+                    <AppBarButton.CommandParameter>
+                        <core:RecordState>Stop</core:RecordState>
+                    </AppBarButton.CommandParameter>
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe71a;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
 
-            <!-- Record -->
-            <AppBarToggleButton Command="{x:Bind ViewModel.RecordCommand}" IsChecked="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=Record, Mode=OneWay}">
-                <AppBarToggleButton.CommandParameter>
-                    <core:RecordState>Record</core:RecordState>
-                </AppBarToggleButton.CommandParameter>
-                <AppBarToggleButton.Icon>
-                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe7c8;" Foreground="OrangeRed" />
-                </AppBarToggleButton.Icon>
-            </AppBarToggleButton>
-            <!-- Pause -->
-            <AppBarToggleButton Command="{x:Bind ViewModel.RecordCommand}" IsChecked="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=RecordPause|PlayPause, Mode=OneWay}">
-                <AppBarToggleButton.CommandParameter>
-                    <core:RecordState>RecordPause</core:RecordState>
-                </AppBarToggleButton.CommandParameter>
-                <AppBarToggleButton.Icon>
-                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe769;" />
-                </AppBarToggleButton.Icon>
-            </AppBarToggleButton>
+                <AppBarSeparator IsCompact="True" />
 
-            <!--<AppBarSeparator />
+                <!-- Record -->
+                <AppBarToggleButton Command="{x:Bind ViewModel.RecordCommand}" IsChecked="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=Record, Mode=OneWay}" IsCompact="True">
+                    <AppBarToggleButton.CommandParameter>
+                        <core:RecordState>Record</core:RecordState>
+                    </AppBarToggleButton.CommandParameter>
+                    <AppBarToggleButton.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe7c8;" Foreground="OrangeRed" />
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+                <!-- Pause -->
+                <AppBarToggleButton Command="{x:Bind ViewModel.RecordCommand}" IsChecked="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=RecordPause|PlayPause, Mode=OneWay}" IsCompact="True">
+                    <AppBarToggleButton.CommandParameter>
+                        <core:RecordState>RecordPause</core:RecordState>
+                    </AppBarToggleButton.CommandParameter>
+                    <AppBarToggleButton.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe769;" />
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+            </CommandBar>
+        </Viewbox>
 
-            <AppBarButton x:Uid="Settings">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe713;" />
-                </AppBarButton.Icon>
-            </AppBarButton>-->
-        </CommandBar>
-
-        <StackPanel Grid.Row="2" Orientation="Vertical" Spacing="4">
-            <StackPanel Orientation="Horizontal" Spacing="4">
-                <ComboBox>
-                    <ComboBox.Items>
-                        <ComboBoxItem IsSelected="True">44100</ComboBoxItem>
-                        <ComboBoxItem>96000</ComboBoxItem>
-                    </ComboBox.Items>
-                </ComboBox>
-                <TextBlock>Hz</TextBlock>
-            </StackPanel>
-
-            <ComboBox ItemsSource="{x:Bind ViewModel.Drivers}" HorizontalAlignment="Stretch" />
-        </StackPanel>
+        <TextBlock Grid.Row="1" Text="{x:Bind ViewModel.RecordingTime, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:hh\\\\:mm\\\\:ss\\\\.f}'}" FontSize="12" />
+        <TextBlock Grid.Row="2" Text="{x:Bind ViewModel.RecordFilename, Mode=OneWay}" FontSize="12" />
     </Grid>
 </UserControl>

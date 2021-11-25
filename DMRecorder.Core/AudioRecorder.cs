@@ -12,26 +12,29 @@ namespace DMRecorder.Core
 {
     public class AudioRecorder : IAudioRecorder
     {
-        private string _driverName = "Focusrite USB ASIO";
-        private int _sampleRate = 96000;
+        private string _driverName;
+        private int _sampleRate;
         private AsioOut? _asioOut;
         private float[]? _buffer;
         private WaveFileWriter? _writer;
-
-        private string _path;
 
         private RecordState _state;
 
         public static string[] Drivers => AsioOut.GetDriverNames();
 
-        public string RecordFilename { get; set; }
+
+        public string? RecordPath { get; set; }
+
+        public string? RecordFilename { get; set; }
         public bool IsRecording { get; private set; }
 
-        public AudioRecorder(string path)
+        public AudioRecorder(string path, string driver, int samplerate)
         {
-            _path = path;
+            RecordPath = path;
+            _driverName = driver;
+            _sampleRate = samplerate;
 
-            RecordFilename = $"untitled({DateTime.Now.ToShortDateString()}).wav";
+            //RecordFilename = $"untitled({DateTime.Now.ToShortDateString()}).wav";
         }
 
         public void Action(RecordState state)
@@ -48,9 +51,14 @@ namespace DMRecorder.Core
                 _asioOut.InitRecordAndPlayback(null, 1, _sampleRate);
                 _buffer = new float[_asioOut.FramesPerBuffer];
 
-                if (Directory.Exists(_path) == false)
-                    Directory.CreateDirectory(_path);
-                var filename = Path.Combine(_path, RecordFilename);
+                if (RecordPath is null)
+                    return;
+                if (Directory.Exists(RecordPath) == false)
+                    Directory.CreateDirectory(RecordPath);
+                if (RecordFilename is null)
+                    return;
+
+                var filename = Path.Combine(RecordPath, RecordFilename);
 
                 _writer = new WaveFileWriter(filename, new WaveFormat(_sampleRate, 1));
                 _asioOut.AudioAvailable += (s, e) =>

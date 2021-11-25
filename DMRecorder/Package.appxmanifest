@@ -7,12 +7,12 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="85ac4ffe-2a28-4fdd-9147-4562c0575d4b"
+    Name="003ad270-c801-4184-ab03-0d8a44c1ed82"
     Publisher="CN=dimohy"
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>DMRecorder</DisplayName>
+    <DisplayName>CSWin2</DisplayName>
     <PublisherDisplayName>dimohy</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

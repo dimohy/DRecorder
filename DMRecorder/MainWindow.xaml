@@ -8,8 +8,54 @@
     mc:Ignorable="d"
     Presenter="CompactOverlay"
     WindowLocation="PrimaryCenter"
-    Width="312" Height="200"
+    Width="210" Height="200"
     >
 
-    <local:RecordPanel Margin="4" />
+    <Grid>
+        <!-- 레코드 패널 -->
+        <Grid x:Name="recordPanel" RowSpacing="4" Padding="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <local:RecordPanel Grid.Row="0" />
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="settingButton"  Background="Transparent" BorderThickness="0" Click="settingButton_Click">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe713;" FontSize="12" />
+                </Button>
+                <Button x:Name="openFolderButton" Background="Transparent" BorderThickness="0" Click="openFolderButton_Click">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe838;" FontSize="12" />
+                </Button>
+                <Button x:Name="deleteFileButton" Background="Transparent" BorderThickness="0" Click="deleteFileButton_Click">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe74d;" FontSize="12" />
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- 세팅 패널 -->
+        <Border x:Name="settingPanel" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="4" Padding="4" Visibility="Collapsed">
+            <Grid RowSpacing="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Uid="Settings" Grid.Column="0" VerticalAlignment="Center" />
+
+                    <Button Grid.Column="1" x:Name="settingCloseButton" Background="Transparent" BorderThickness="0" Click="settingCloseButton_Click" Width="16" Padding="0">
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe8bb;" FontSize="12" />
+                    </Button>
+                </Grid>
+                <local:SettingsPanel Grid.Row="1" />
+            </Grid>
+        </Border>
+    </Grid>
 </local:CustomWindow>
