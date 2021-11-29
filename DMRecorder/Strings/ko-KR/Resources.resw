@@ -120,11 +120,14 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>디모이 녹음기</value>
   </data>
-  <data name="Driver.Text" xml:space="preserve">
-    <value>드라이버</value>
+  <data name="Input.Text" xml:space="preserve">
+    <value>입력</value>
   </data>
   <data name="RecordFilename.PlaceholderText" xml:space="preserve">
     <value>녹음 파일명</value>
+  </data>
+  <data name="Recordname.Text" xml:space="preserve">
+    <value>녹음 이름</value>
   </data>
   <data name="SampleRate.Text" xml:space="preserve">
     <value>샘플링 속도</value>

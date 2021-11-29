@@ -120,11 +120,14 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>DMRecorder</value>
   </data>
-  <data name="Driver.Text" xml:space="preserve">
-    <value>Driver</value>
+  <data name="Input.Text" xml:space="preserve">
+    <value>Input</value>
   </data>
   <data name="RecordFilename.PlaceholderText" xml:space="preserve">
     <value>Record Filename</value>
+  </data>
+  <data name="Recordname.Text" xml:space="preserve">
+    <value>Record Name</value>
   </data>
   <data name="SampleRate.Text" xml:space="preserve">
     <value>Sample Rate</value>

@@ -9,8 +9,8 @@
 
     <Grid>
         <StackPanel Grid.Row="2" Orientation="Vertical" Spacing="4">
-            <TextBlock x:Uid="Driver" FontSize="12" />
-            <ComboBox ItemsSource="{x:Bind ViewModel.Drivers}" SelectedItem="{x:Bind ViewModel.Settings.RecordDriver, Mode=TwoWay}"  Width="150" FontSize="12" />
+            <TextBlock x:Uid="Input" FontSize="12" />
+            <ComboBox ItemsSource="{x:Bind ViewModel.Drivers}" SelectedItem="{x:Bind ViewModel.Settings.RecordDriver, Mode=TwoWay}" HorizontalAlignment="Stretch" FontSize="12" />
 
             <TextBlock x:Uid="SampleRate" FontSize="12" />
             <StackPanel Orientation="Horizontal" Spacing="4">
@@ -23,6 +23,7 @@
                 <TextBlock FontSize="12" VerticalAlignment="Center">Hz</TextBlock>
             </StackPanel>
 
+            <TextBlock x:Uid="Recordname" FontSize="12" />
             <TextBox x:Uid="RecordFilename" Text="{x:Bind ViewModel.RecrodFileFormat, Mode=TwoWay}" FontSize="12" />
         </StackPanel>
     </Grid>

@@ -38,23 +38,25 @@
         <Border x:Name="settingPanel" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="4" Padding="4" Visibility="Collapsed">
             <Grid RowSpacing="4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
+                    <!--<RowDefinition Height="Auto" />-->
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0">
+                <!--<Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <TextBlock x:Uid="Settings" Grid.Column="0" VerticalAlignment="Center" />
+                </Grid>-->
+                <!--<local:SettingsPanel Grid.Row="1" />-->
 
-                    <Button Grid.Column="1" x:Name="settingCloseButton" Background="Transparent" BorderThickness="0" Click="settingCloseButton_Click" Width="16" Padding="0">
-                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe8bb;" FontSize="12" />
-                    </Button>
-                </Grid>
-                <local:SettingsPanel Grid.Row="1" />
+                <local:SettingsPanel />
+
+                <Button x:Name="settingCloseButton" Background="Transparent" BorderThickness="0" Click="settingCloseButton_Click" Width="16" Padding="0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe8bb;" FontSize="12" />
+                </Button>
             </Grid>
         </Border>
     </Grid>

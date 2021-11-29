@@ -11,8 +11,9 @@
         <converters:RecordStateEqualToBooleanConverter x:Key="RecordStateEqualToBooleanConverter" />
     </UserControl.Resources>
 
-    <Grid>
+    <Grid RowSpacing="4">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -62,7 +63,8 @@
             </CommandBar>
         </Viewbox>
 
-        <TextBlock Grid.Row="1" Text="{x:Bind ViewModel.RecordingTime, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:hh\\\\:mm\\\\:ss\\\\.f}'}" FontSize="12" />
-        <TextBlock Grid.Row="2" Text="{x:Bind ViewModel.RecordFilename, Mode=OneWay}" FontSize="12" />
+        <Slider Grid.Row="1" IsEnabled="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=Play|PlayPause, Mode=OneWay}" />
+        <TextBlock Grid.Row="2" Text="{x:Bind ViewModel.RecordingTime, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:hh\\\\:mm\\\\:ss\\\\.f}'}" HorizontalAlignment="Right" FontSize="12" />
+        <TextBlock Grid.Row="3" Text="{x:Bind ViewModel.RecordFilename, Mode=OneWay}" FontSize="12" Margin="0,8,0,0" />
     </Grid>
 </UserControl>
