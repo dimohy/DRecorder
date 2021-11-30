@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMRecorder.Test.Console", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMRecorder.Core", "DMRecorder.Core\DMRecorder.Core.csproj", "{0DAADF91-1899-43E3-9C9C-FB0D1614340E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMRecorder", "DMRecorder\DMRecorder.csproj", "{41B54217-98F6-48CF-8AF5-9CFFEA55FCAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMRecorder", "DMRecorder\DMRecorder.csproj", "{41B54217-98F6-48CF-8AF5-9CFFEA55FCAB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B808DC7F-D69A-486B-BEC1-AF8AE87FE423}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
