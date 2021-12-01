@@ -1,9 +1,9 @@
 {
   "profiles": {
-    "DMRecorder (Package)": {
+    "Package": {
       "commandName": "MsixPackage"
     },
-    "DMRecorder (Unpackaged)": {
+    "Unpackaged": {
       "commandName": "Project"
     }
   }
