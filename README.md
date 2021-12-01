@@ -35,3 +35,21 @@ Windows App SDK는 이제 `패키지` 실행과 `비패키지` 실행 모두 지
 화면 상단의 다음의 영역으로 프로파일을 선택하고 실행할 수 있습니다.
 
 ![프로파일 선택](images/profile1.png)
+
+`패키지`, `비패키지`를 선택할 때 csproj 파일의 설정도 변경을 해줘야 합니다.
+
+- 패키지일 경우,
+```xaml
+...
+<WindowsAppSdkBootstrapInitialize>false</WindowsAppSdkBootstrapInitialize>
+...
+```
+
+- 비패키지일 경우,
+```xaml
+...
+<WindowsAppSdkBootstrapInitialize>true</WindowsAppSdkBootstrapInitialize>
+...
+```
+
+비패키지일 경우 부트스트렙에서 Windows App SDK의 사용할 버젼을 선택하고 초기화 하는 코드가 필요한데 `WindowsAppSdkBootstrapInitialize` 설정에 의해 코드가 자동으로 생성이 됩니다. 하지만 패키지에는 필요하지 않으므로 이 값을 `false`로 해야 실행이 됩니다.
