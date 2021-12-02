@@ -134,3 +134,25 @@ DMRecorder는 `Window`를 재정의한 `CustomWindow`로 쉽게 `AppWindow`에 �
 
 WinUI 3에서 제공하는 XAML 컨트롤은 UWP WinUI 2.7의 XAML 컨트롤과 거의 동일합니다. UWP 개발자는 거의 동일한 감각으로 바로 WinUI 3를 개발할 수 있고 `Grid`나 `StackPanel`등의 페널 및 기본 컨트롤들이 WPF의 그것과 매우 유사하기 때문에 WPF 개발자도 금방 화면 개발이 가능합니다.
 
+```xaml
+        <Grid x:Name="recordPanel" RowSpacing="4" Padding="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <local:RecordPanel Grid.Row="0" />
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="settingButton"  Background="Transparent" BorderThickness="0" Click="settingButton_Click">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe713;" FontSize="12" />
+                </Button>
+                <Button x:Name="openFolderButton" Background="Transparent" BorderThickness="0" Click="openFolderButton_Click">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe838;" FontSize="12" />
+                </Button>
+                <Button x:Name="deleteFileButton" Background="Transparent" BorderThickness="0" Click="deleteFileButton_Click">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe74d;" FontSize="12" />
+                </Button>
+            </StackPanel>
+        </Grid>
+```
