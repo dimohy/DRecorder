@@ -97,7 +97,7 @@ public static class ResourceExtension
 ![밝은 테마](images/light.png)
 
 | 테마 컬러가 `어둡게`일 경우
-![어두운 테마](images/light.png)
+![어두운 테마](images/dark.png)
 
 
 ### 윈도 테마 컬러 변경 감지
