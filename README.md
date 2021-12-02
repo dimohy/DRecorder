@@ -65,7 +65,7 @@ Windows App SDK는 이제 `패키지` 실행과 `비패키지` 실행 모두 지
 
 Windows App SDK에서는 패키지 리소스를 이용해 다국어를 지원합니다. 리소스는 기존과 동일한 `.resw` 확장자를 가지지만 `PRIResource`에 의해 pri 파일로 변환됩니다. `ResourceManager`나 `ResourceLoader`를 통해 리소스에 접근할 수 있으며 XAML에 `x:Uid`를 이용하면 `이름.속성` 형태로 리소스에 접근할 수 있습니다.
 
-| 리소스 "input.Text"가 TextBlock의 `Text`속성에 적용 됨
+| 리소스 "Input.Text" 이름의 값이 TextBlock의 `Text`속성에 적용 됨
 ```xaml
 ...
     <TextBlock x:Uid="Input" FontSize="12" />
