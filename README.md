@@ -94,9 +94,11 @@ public static class ResourceExtension
 윈도우는 `밝게`, `어둡게` 테마 컬러를 지원합니다. WinUI 3는 기본적으로 테마 컬러를 대응합니다.
 
 | 테마 컬러가 `밝게`일 경우
+
 ![밝은 테마](images/light.png)
 
 | 테마 컬러가 `어둡게`일 경우
+
 ![어두운 테마](images/dark.png)
 
 
