@@ -87,3 +87,48 @@ public static class ResourceExtension
 ```
 
 `"Name".GetLocalized()` 형태로 코드에서 사용할 수 있습니다.
+
+
+## 윈도 테마 대응
+
+윈도우는 `밝게`, `어둡게` 테마 컬러를 지원합니다. WinUI 3는 기본적으로 테마 컬러를 대응합니다.
+
+| 테마 컬러가 `밝게`일 경우
+![밝은 테마](images/light.png)
+
+| 테마 컬러가 `어둡게`일 경우
+![어두운 테마](images/light.png)
+
+
+### 윈도 테마 컬러 변경 감지
+
+WinUI 3는 윈도 테마 컬러가 변경되었을 떄 이를 알 수 있도록 이벤트를 제공합니다.
+
+| `FrameworkElement`의 `ActualThemeChanged` 이벤트를 통해 테마 변경 감지
+```csharp
+    content.ActualThemeChanged += (s, e) => this.Theme = content.ActualTheme;
+```
+
+
+## 윈도 타이틀바 제어
+
+WinUI 3은 타이틀바의 접근을 직접 할 수 없습니다. 전신이 UWP였기 때문인데 윈도 타이틀바에 접근하려면 `AppWindow`를 이용해야 합니다. `AppWindow`를 이용해 타이틀바 아이콘 및 제목, 각족 스타일을 설정할 수 있습니다.
+
+`AppWindow` 인스턴스를 얻는 방법은 다음과 같습니다.
+
+```csharp
+    private AppWindow GetAppWindowForCurrentWidow()
+    {
+        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+        var winId = Win32Interop.GetWindowIdFromWindow(hWnd);
+        return AppWindow.GetFromWindowId(winId);
+    }
+```
+
+DMRecorder는 `Window`를 재정의한 `CustomWindow`로 쉽게 `AppWindow`에 접근하는 코드를 보여줍니다.
+
+
+## WinUI 3 XAML 컨트롤
+
+WinUI 3에서 제공하는 XAML 컨트롤은 UWP WinUI 2.7의 XAML 컨트롤과 거의 동일합니다. UWP 개발자는 거의 동일한 감각으로 바로 WinUI 3를 개발할 수 있고 `Grid`나 `StackPanel`등의 페널 및 기본 컨트롤들이 WPF의 그것과 매우 유사하기 때문에 WPF 개발자도 금방 화면 개발이 가능합니다.
+
