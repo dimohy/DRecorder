@@ -5,7 +5,7 @@ DMRecorder는 Windows App SDK 및 WinUI 3을 학습하기 위해 만든 간단�
 
 ## 컴파일 환경
 
-- Windows 10 (19041)
+- Windows 10 (19041) 이상 실행 가능
 - .NET 6
 - Visual Studio 2022
 - Windows App SDK 1.0
