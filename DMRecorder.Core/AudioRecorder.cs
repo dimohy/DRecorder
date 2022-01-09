@@ -73,7 +73,7 @@ public class AudioRecorder
             }
 
             var count = e.GetAsInterleavedSamples(_buffer);
-            _writer.WriteSamples(_buffer, 0, count);
+            _writer?.WriteSamples(_buffer, 0, count);
 
             totalCount += count;
             var recordTimeSpan = TimeSpan.FromSeconds((double)totalCount / _sampleRate);
