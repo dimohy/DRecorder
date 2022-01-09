@@ -4,22 +4,15 @@ using DMRecorder.Core.Contracts;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.VisualBasic;
-
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Runtime;
 
 public partial class RecordViewModel : ObservableRecipient
 {
 
     private AudioRecorder _audioRecorder;
-    private IResourceManager _reosurceManager;
-    private FilenamePattern _filenamePattern;
-    private ISettings _settings;
-    private PeriodicTimer? _recordingTimer;
-    private Stopwatch? _recordingStopwatch;
-    private IDispatcherQueue _dispatcherQueue;
+    //private readonly IResourceManager _reosurceManager;
+    private readonly FilenameFormat _filenamePattern;
+    private readonly ISettings _settings;
+    private readonly IDispatcherQueue _dispatcherQueue;
 
     [ObservableProperty]
     private RecordState _recordState;
@@ -30,9 +23,23 @@ public partial class RecordViewModel : ObservableRecipient
     [ObservableProperty]
     private TimeSpan _recordingTime;
 
+    [ObservableProperty]
+    private double _totalPlayTime;
+
+    public double RecordingTimeValue => _recordingTime.TotalSeconds;
+
+    public bool IsRecording => _audioRecorder.IsRecording;
+
+    public bool CanPlay
+    {
+        get => LastRecordFilename is not null && File.Exists(Path.Combine(RecordPath, LastRecordFilename));
+    }
+
     public RelayCommand<RecordState> RecordCommand { get; }
 
     public ISettings Settings => _settings;
+
+    public IRecordingObserver? RecordingObserver { get; set; }
 
     public string RecordPath
     {
@@ -47,7 +54,7 @@ public partial class RecordViewModel : ObservableRecipient
         {
             _settings.RecordFileFormat = value;
 
-            _filenamePattern.Pattern = value;
+            _filenamePattern.Format = value;
             OnPropertyChanged(nameof(RecordFilename));
         }
     }
@@ -60,9 +67,9 @@ public partial class RecordViewModel : ObservableRecipient
     public string[] Drivers => AudioRecorder.Drivers;
     public int[] SampleRates { get; } = new[] { 48000, 96000 };
 
-    public RecordViewModel(IResourceManager resourceManager, ISettings settings, IDispatcherQueue dispatcherQueue)
+    public RecordViewModel(/*IResourceManager resourceManager, */ISettings settings, IDispatcherQueue dispatcherQueue)
     {
-        _reosurceManager = resourceManager;
+        //_reosurceManager = resourceManager;
         _settings = settings;
         _dispatcherQueue = dispatcherQueue;
 
@@ -72,70 +79,75 @@ public partial class RecordViewModel : ObservableRecipient
 
         RecordCommand = new(state =>
         {
-            // Record 또는 Play에 따라 일시 정지 분기
-            if (state == RecordState.RecordPause)
-            {
-                state = RecordState switch
-                {
-                    RecordState.Record => RecordState.RecordPause,
-                    RecordState.RecordPause => RecordState.Record,
-                    RecordState.Play => RecordState.PlayPause,
-                    RecordState.PlayPause => RecordState.Play,
-                    _ => state
-                };
-            }
-
             switch (state)
             {
                 case RecordState.Play:
+                    _audioRecorder.Play(recorderState =>
+                    {
+                        if (recorderState.State is RecordState.Stop)
+                        {
+                            _dispatcherQueue.TryEnqueue(() =>
+                            {
+                                RecordState = RecordState.Stop;
+
+                                RecordCommand!.NotifyCanExecuteChanged();
+                            });
+                        }
+                        else if (recorderState.State is RecordState.Play)
+                        {
+                            _dispatcherQueue.TryEnqueue(() =>
+                            {
+                                TotalPlayTime = recorderState.TotalTimeSpan.TotalSeconds;
+                                RecordingTime = recorderState.RunningTimeSpan;
+                                OnPropertyChanged(nameof(RecordingTimeValue));
+                            });
+                        }
+                    });
+
+                    //RestartTimer();
+
                     break;
+
                 case RecordState.PlayPause:
+                    _audioRecorder.Pause();
+
                     break;
                 case RecordState.Record:
                     OnPropertyChanged(nameof(RecordFilename));
 
                     LastRecordFilename = RecordFilename;
 
-                    if (_audioRecorder.IsRecording == false)
-                    {
-                        _recordingTimer = new(TimeSpan.FromMilliseconds(50));
-                        _ = Task.Run(async () =>
-                        {
-                            _recordingStopwatch = Stopwatch.StartNew();
-
-                            while (await _recordingTimer.WaitForNextTickAsync())
-                            {
-                                _dispatcherQueue.TryEnqueue(() => RecordingTime = _recordingStopwatch.Elapsed);
-                            }
-                        });
-                    }
-                    else
-                        _recordingStopwatch?.Start();
-
                     _audioRecorder.RecordFilename = LastRecordFilename;
-                    _audioRecorder.Action(state);
+                    _audioRecorder.Record(recorderState =>
+                    {
+                        RecordingObserver?.SendValue(recorderState.RecordValue);
+
+                        _dispatcherQueue.TryEnqueue(() =>
+                        {
+                            RecordingTime = recorderState.RunningTimeSpan;
+                            OnPropertyChanged(nameof(RecordingTimeValue));
+                        });
+                    });
 
                     break;
                 case RecordState.RecordPause:
-                    _audioRecorder.Action(state);
-
-                    _recordingStopwatch?.Stop();
+                    _audioRecorder.Pause();
 
                     break;
                 case RecordState.Stop:
-                    _audioRecorder.Action(state);
-
-                    _recordingTimer?.Dispose();
+                    _audioRecorder.Stop();
 
                     break;
             }
 
+            RecordingObserver?.SendState(RecordState, state);
             RecordState = state;
 
             RecordCommand!.NotifyCanExecuteChanged();
+            OnPropertyChanged(nameof(IsRecording));
         }, state => state switch
             {
-                RecordState.Play => RecordState is RecordState.Stop,
+                RecordState.Play => RecordState is RecordState.Stop && CanPlay is true,
                 RecordState.Stop => RecordState is RecordState.Play or RecordState.Record or RecordState.RecordPause or RecordState.PlayPause,
                 RecordState.Record => RecordState is RecordState.Stop,
                 RecordState.RecordPause => RecordState is RecordState.Record or RecordState.RecordPause or RecordState.Play or RecordState.PlayPause,
@@ -146,11 +158,15 @@ public partial class RecordViewModel : ObservableRecipient
     public void DeleteLastRecordFile()
     {
         if (LastRecordFilename is null)
+        {
             return;
+        }
 
         var filename = Path.Combine(RecordPath, LastRecordFilename);
-        if (File.Exists(filename) == false)
+        if (File.Exists(filename) is false)
+        {
             return;
+        }
 
         File.Delete(filename);
 

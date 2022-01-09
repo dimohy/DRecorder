@@ -8,27 +8,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DMRecorder.Converters
+namespace DMRecorder.Converters;
+
+public class RecordStateEqualToBooleanConverter : IValueConverter
 {
-    public class RecordStateEqualToBooleanConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, string language)
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            if (value is null || parameter is null)
-                return false;
+        if (value is null || parameter is null)
+            return false;
 
-            var parameterString = $"{parameter?.ToString()}";
-            var @params = parameterString.Split('|', StringSplitOptions.TrimEntries);
-            return @params.Any(x => value.Equals(Enum.Parse<RecordState>(x)) == true);
-        }
+        var parameterString = $"{parameter?.ToString()}";
+        var @params = parameterString.Split('|', StringSplitOptions.TrimEntries);
+        return @params.Any(x => value.Equals(Enum.Parse<RecordState>(x)) is true);
+    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            if (value is null)
-                return null!;
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        if (value is null)
+            return null!;
 
-            var param = Enum.Parse<RecordState>(parameter.ToString()!);
-            return param;
-        }
+        var param = Enum.Parse<RecordState>(parameter.ToString()!);
+        return param;
     }
 }

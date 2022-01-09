@@ -49,7 +49,7 @@ public class CustomWindow : Window
             if (presneter is not OverlappedPresenter olPresenter)
                 return;
 
-            if (value == true)
+            if (value is true)
                 DispatcherQueue.TryEnqueue(() => olPresenter.Maximize());
         }
     }
@@ -63,14 +63,14 @@ public class CustomWindow : Window
         set
         {
             if (value == default)
-                value = (Content as FrameworkElement)!.ActualTheme == ElementTheme.Light ? ElementTheme.Light : ElementTheme.Dark;
+                value = (Content as FrameworkElement)!.ActualTheme is ElementTheme.Light ? ElementTheme.Light : ElementTheme.Dark;
 
             if (_appTheme == value)
                 return;
             _appTheme = value;
 
             var titleBar = AppWindow.TitleBar;
-            if (_appTheme == ElementTheme.Light)
+            if (_appTheme is ElementTheme.Light)
             {
                 titleBar.ForegroundColor = Colors.Black;
                 titleBar.BackgroundColor = Colors.White;
@@ -87,7 +87,7 @@ public class CustomWindow : Window
                 titleBar.ButtonPressedForegroundColor = Colors.Black;
                 titleBar.ButtonPressedBackgroundColor = Colors.White;
             }
-            else if (_appTheme == ElementTheme.Dark)
+            else if (_appTheme is ElementTheme.Dark)
             {
                 titleBar.ForegroundColor = Colors.White;
                 titleBar.BackgroundColor = Color.FromArgb(255, 31, 31, 31);

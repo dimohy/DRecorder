@@ -4,7 +4,7 @@
     <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
     <!--<ImplicitUsings>enable</ImplicitUsings>-->
     <Nullable>enable</Nullable>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <RootNamespace>DMRecorder</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64;arm64</Platforms>
@@ -12,11 +12,11 @@
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
-	<!--<WindowsPackageType>None</WindowsPackageType>-->
     <WindowsAppSdkBootstrapInitialize>true</WindowsAppSdkBootstrapInitialize>
   
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="RecordingVisualizer.xaml" />
     <None Remove="RecordPanel.xaml" />
     <None Remove="SettingsPanel.xaml" />
   </ItemGroup>
@@ -35,12 +35,18 @@
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.0.30" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22504-preview" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22523-preview" />
 	<Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DMRecorder.Core\DMRecorder.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="RecordingVisualizer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

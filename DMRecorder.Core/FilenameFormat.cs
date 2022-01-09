@@ -1,37 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-using static System.Net.Mime.MediaTypeNames;
+﻿using System.Text.RegularExpressions;
 
 namespace DMRecorder.Core
 {
-    public class FilenamePattern
+    public class FilenameFormat
     {
-        private Dictionary<string, string> _patternParams = new();
-        private Regex _regex = new(@"{([^}]+)}");
+        //private Dictionary<string, string> _formatParams = new();
+        private readonly Regex _regex = new(@"{([^}]+)}");
 
         public string FilePath { get; }
-        public string Pattern { get; set; }
+        public string Format { get; set; }
         public string Filename => GetName();
         public string Extension { get; }
 
-        public FilenamePattern(string filePath, string pattern, string extension)
+        public FilenameFormat(string filePath, string format, string extension)
         {
             FilePath = filePath;
-            Pattern = pattern;
+            Format = format;
             Extension = extension;
         }
         private string GetName()
         {
-            var name = _regex.Replace(Pattern, match =>
+            var name = _regex.Replace(Format, match =>
             {
                 var bResult = Enum.TryParse<FilenamePatternParams>(match.Groups[1].Value, out var patternParam);
-                if (bResult == false)
+                if (bResult is false)
+                {
                     return match.Value;
+                }
 
                 return patternParam switch
                 {
@@ -42,15 +37,19 @@ namespace DMRecorder.Core
 
             var filename = $"{name}{Extension}";
 
-            if (File.Exists(Path.Combine(FilePath, filename)) == false)
+            if (File.Exists(Path.Combine(FilePath, filename)) is false)
+            {
                 return filename;
+            }
 
             var count = 1;
             while (true)
             {
                 filename = $"{name}({count}){Extension}";
-                if (File.Exists(Path.Combine(FilePath, filename)) == false)
+                if (File.Exists(Path.Combine(FilePath, filename)) is false)
+                {
                     return filename;
+                }
 
                 count++;
             }

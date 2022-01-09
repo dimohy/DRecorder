@@ -4,7 +4,7 @@ using Microsoft.Windows.ApplicationModel.Resources;
 
 public static class ResourceExtension
 {
-    private static ResourceLoader _resLoader = new();
+    private static readonly ResourceLoader _resLoader = new();
 
     public static string GetLocalized(this string resourceKey)
     {

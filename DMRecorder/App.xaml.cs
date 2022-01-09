@@ -30,7 +30,7 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        this.InitializeComponent();
+        InitializeComponent();
 
         Ioc.Default.ConfigureServices(ConfigureServices());
     }
@@ -57,7 +57,7 @@ public partial class App : Application
 
         // 설정 파일 위치
         var appSettingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppName);
-        if (Directory.Exists(appSettingsPath) == false)
+        if (Directory.Exists(appSettingsPath) is false)
             Directory.CreateDirectory(appSettingsPath);
         var appSettingsFilename = Path.Combine(appSettingsPath, "settings.config");
         s.AddSingleton<ISettings>(AppSettings.Load(appSettingsFilename));
@@ -74,7 +74,7 @@ public partial class App : Application
 
 public class ResourceManager : IResourceManager
 {
-    private ResourceLoader _resLoader = new();
+    private readonly ResourceLoader _resLoader = new();
 
     public string GetLocalized(string resourceKey)
     {
@@ -84,7 +84,7 @@ public class ResourceManager : IResourceManager
 
 public class DispatcherQueue : IDispatcherQueue
 {
-    private Func<Microsoft.UI.Dispatching.DispatcherQueue> _dispoacherQueueFunc;
+    private readonly Func<Microsoft.UI.Dispatching.DispatcherQueue> _dispoacherQueueFunc;
 
     public DispatcherQueue(Func<Microsoft.UI.Dispatching.DispatcherQueue> dispoacherQueueFunc)
     {

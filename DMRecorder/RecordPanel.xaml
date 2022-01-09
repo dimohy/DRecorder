@@ -5,16 +5,21 @@
     xmlns:local="using:DMRecorder"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:core="using:DMRecorder.Core" xmlns:converters="using:DMRecorder.Converters"
+    xmlns:m="using:DMRecorder.Extensions"
     mc:Ignorable="d" IsTabStop="False">
 
     <UserControl.Resources>
         <converters:RecordStateEqualToBooleanConverter x:Key="RecordStateEqualToBooleanConverter" />
+
+        <converters:EqualToVisibilityConverter x:Key="PlayingVisibilityConverter" EqualVisibility="Collapsed" NotEqualVisibility="Visible" Value="{m:BooleanValue Value=True}" />
+
+        <converters:EqualToVisibilityConverter x:Key="RecordingVisibilityConverter" EqualVisibility="Visible" NotEqualVisibility="Collapsed" Value="{m:BooleanValue Value=True}" />
     </UserControl.Resources>
 
     <Grid RowSpacing="4">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="32" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -63,7 +68,12 @@
             </CommandBar>
         </Viewbox>
 
-        <Slider Grid.Row="1" IsEnabled="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=Play|PlayPause, Mode=OneWay}" />
+        <Slider Grid.Row="1"
+                Visibility="{x:Bind ViewModel.IsRecording, Mode=OneWay, Converter={StaticResource PlayingVisibilityConverter}}"
+                IsEnabled="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=Play|PlayPause, Mode=OneWay}"
+                Value="{x:Bind ViewModel.RecordingTimeValue, Mode=OneWay}" Minimum="0" Maximum="{x:Bind ViewModel.TotalPlayTime, Mode=OneWay}" VerticalAlignment="Center"/>
+        <local:RecordingVisualizer x:Name="recordingVisualizer" Grid.Row="1"
+                Visibility="{x:Bind ViewModel.IsRecording, Mode=OneWay, Converter={StaticResource RecordingVisibilityConverter}}" />
         <TextBlock Grid.Row="2" Text="{x:Bind ViewModel.RecordingTime, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:hh\\\\:mm\\\\:ss\\\\.f}'}" HorizontalAlignment="Right" FontSize="12" />
         <TextBlock Grid.Row="3" Text="{x:Bind ViewModel.RecordFilename, Mode=OneWay}" FontSize="12" Margin="0,8,0,0" />
     </Grid>

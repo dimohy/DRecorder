@@ -33,10 +33,12 @@ public abstract class Settings<T>
     {
         T result;
 
-        if (cache.ContainsKey(filepath) == true)
+        if (cache.ContainsKey(filepath) is true)
+        {
             return cache[filepath];
+        }
 
-        if (File.Exists(filepath) == false)
+        if (File.Exists(filepath) is false)
         {
             result = new T { Filepath = filepath };
             result.SetDefault();
@@ -58,8 +60,10 @@ public abstract class Settings<T>
         var directory = Path.GetDirectoryName(Filepath);
         if (directory is not null)
         {
-            if (Directory.Exists(directory) == false)
+            if (Directory.Exists(directory) is false)
+            {
                 Directory.CreateDirectory(directory);
+            }
         }
 
         var yamlText = serializer.Serialize(this);
