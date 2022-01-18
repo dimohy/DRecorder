@@ -73,7 +73,13 @@ public class AudioRecorder
             }
 
             var count = e.GetAsInterleavedSamples(_buffer);
-            _writer?.WriteSamples(_buffer, 0, count);
+
+            // TODO: 임시로 예외 발생하지 않도록 이후 수정할 것
+            try
+            {
+                _writer?.WriteSamples(_buffer, 0, count);
+            }
+            catch { }
 
             totalCount += count;
             var recordTimeSpan = TimeSpan.FromSeconds((double)totalCount / _sampleRate);
