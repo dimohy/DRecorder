@@ -1,4 +1,6 @@
-# DMRecorder : 디모이 녹음기
+![image](https://user-images.githubusercontent.com/58620778/153425356-f81520e3-4761-4544-a8a3-39a873943f3d.png)
+
+# DMRecorder
 
 DMRecorder는 Windows App SDK 및 WinUI 3을 학습하기 위해 만든 간단한 녹음기 애플리케이션입니다. DMRecorder를 통해 다음의 Windows App SDK 및 WinUI 3의 기능을 확인할 수 있습니다.
 
