@@ -1,4 +1,6 @@
-# DMRecorder : 디모이 녹음기
+![image](https://user-images.githubusercontent.com/58620778/153425356-f81520e3-4761-4544-a8a3-39a873943f3d.png)
+
+# DMRecorder
 
 DMRecorder는 Windows App SDK 및 WinUI 3을 학습하기 위해 만든 간단한 녹음기 애플리케이션입니다. DMRecorder를 통해 다음의 Windows App SDK 및 WinUI 3의 기능을 확인할 수 있습니다.
 
@@ -141,8 +143,7 @@ DMRecorder는 `Window`를 재정의한 `CustomWindow`로 쉽게 `AppWindow`에 �
 
 ## WinUI 3 XAML 컨트롤
 
-WinUI 3에서 제공하는 XAML 컨트롤은 UWP WinUI 2.7의 XAML 컨트롤과 거의 동일합니다. UWP 개발자는 거의 동일한 감각으로 바로 WinUI 3를 개발할 수 있고 `Grid`나 `StackPanel`등의 페
-패널 및 기본 컨트롤들이 WPF의 그것과 매우 유사하기 때문에 WPF 개발자도 금방 화면 개발이 가능합니다.
+WinUI 3에서 제공하는 XAML 컨트롤은 UWP WinUI 2.7의 XAML 컨트롤과 거의 동일합니다. UWP 개발자는 거의 동일한 감각으로 바로 WinUI 3를 개발할 수 있고 `Grid`나 `StackPanel`등의 패널 및 기본 컨트롤들이 WPF의 그것과 매우 유사하기 때문에 WPF 개발자도 금방 화면 개발이 가능합니다.
 
 ```xaml
         <Grid x:Name="recordPanel" RowSpacing="4" Padding="4">
