@@ -36,6 +36,14 @@ public class EqualToVisibilityConverter : IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)
     {
-        throw new NotImplementedException();
+        if (value is not Visibility v)
+            return null!;
+
+        if (Value is bool bValue)
+        {
+            return v == EqualVisibility ? bValue : !bValue;
+        }
+        else
+            return null!;
     }
 }

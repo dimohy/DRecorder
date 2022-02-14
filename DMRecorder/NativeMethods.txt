@@ -1,0 +1,6 @@
+﻿LoadImage
+SendMessage
+WM_SETICON
+GetSystemMetrics
+
+

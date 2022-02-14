@@ -1,9 +1,10 @@
 ﻿namespace DMRecorder;
 
+using CommunityToolkit.Mvvm.DependencyInjection;
+
 using DMRecorder.Core.ViewModels;
 using DMRecorder.Extensions;
 
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 
 using System;

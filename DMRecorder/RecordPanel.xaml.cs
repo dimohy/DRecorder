@@ -1,10 +1,11 @@
 ﻿namespace DMRecorder;
 
+using CommunityToolkit.Mvvm.DependencyInjection;
+
 using DMRecorder.Core;
 using DMRecorder.Core.Contracts;
 using DMRecorder.Core.ViewModels;
 
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 
 public sealed partial class RecordPanel : UserControl, IRecordingObserver

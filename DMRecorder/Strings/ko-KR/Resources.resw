@@ -118,7 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>디모이 녹음기</value>
+    <value>DMRecorder</value>
+  </data>
+  <data name="errorMessage.Message" xml:space="preserve">
+    <value>입력 장치</value>
+  </data>
+  <data name="errorMessage.Title" xml:space="preserve">
+    <value>오류</value>
   </data>
   <data name="Input.Text" xml:space="preserve">
     <value>입력</value>

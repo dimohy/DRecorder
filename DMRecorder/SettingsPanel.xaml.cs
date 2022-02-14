@@ -1,9 +1,9 @@
 ﻿namespace DMRecorder;
 
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 
 using DMRecorder.Core.ViewModels;
+using CommunityToolkit.Mvvm.DependencyInjection;
 
 public sealed partial class SettingsPanel : UserControl
 {

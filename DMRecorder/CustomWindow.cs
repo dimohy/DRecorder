@@ -8,35 +8,40 @@ using WinRT.Interop;
 using Windows.UI;
 using Microsoft.UI;
 
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
+using Windows.Win32;
+
 public class CustomWindow : Window
 {
     private WindowLocationKind _windowLocation;
     private ElementTheme _appTheme;
+    private AppWindow _appWindow;
 
 
     public int Width
     {
-        get => AppWindow.Size.Width;
-        set => AppWindow.Resize(new(value, Height));
+        get => _appWindow.Size.Width;
+        set => _appWindow.Resize(new(value, Height));
     }
 
     public int Height
     {
-        get => AppWindow.Size.Height;
-        set => AppWindow.Resize(new(Width, value));
+        get => _appWindow.Size.Height;
+        set => _appWindow.Resize(new(Width, value));
     }
 
     public AppWindowPresenterKind Presenter
     {
-        get => AppWindow.Presenter.Kind;
-        set => AppWindow.SetPresenter(value);
+        get => _appWindow.Presenter.Kind;
+        set => _appWindow.SetPresenter(value);
     }
 
     public bool IsMaximize
     {
         get
         {
-            var presneter = AppWindow.Presenter;
+            var presneter = _appWindow.Presenter;
             if (presneter is not OverlappedPresenter olPresenter)
                 return false;
 
@@ -45,12 +50,20 @@ public class CustomWindow : Window
 
         set
         {
-            var presneter = AppWindow.Presenter;
+            var presneter = _appWindow.Presenter;
             if (presneter is not OverlappedPresenter olPresenter)
                 return;
 
             if (value is true)
                 DispatcherQueue.TryEnqueue(() => olPresenter.Maximize());
+        }
+    }
+
+    public string Icon
+    {
+        set
+        {
+            ModifyIcon(value);
         }
     }
 
@@ -69,7 +82,7 @@ public class CustomWindow : Window
                 return;
             _appTheme = value;
 
-            var titleBar = AppWindow.TitleBar;
+            var titleBar = _appWindow.TitleBar;
             if (_appTheme is ElementTheme.Light)
             {
                 titleBar.ForegroundColor = Colors.Black;
@@ -128,15 +141,45 @@ public class CustomWindow : Window
                     var displayArea = DisplayArea.Primary;
                     var x = (displayArea.WorkArea.Width - Width) / 2;
                     var y = (displayArea.WorkArea.Height - Height) / 2;
-                    AppWindow.MoveAndResize(new(x, y, Width, Height), displayArea);
+                    _appWindow.MoveAndResize(new(x, y, Width, Height), displayArea);
                     break;
             }
         }
     }
-    public AppWindow AppWindow => GetAppWindowForCurrentWidow();
+
+    private unsafe void ModifyIcon(string iconPath)
+    {
+        var hwnd = (HWND)WindowNative.GetWindowHandle(this);
+
+        const int ICON_SMALL = 0;
+        const int ICON_BIG = 1;
+
+        fixed (char* nameLocal = iconPath)
+        {
+            var imageHandle = PInvoke.LoadImage(default,
+                nameLocal,
+                GDI_IMAGE_TYPE.IMAGE_ICON,
+                PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
+                PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
+                IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
+                PInvoke.SendMessage(hwnd, PInvoke.WM_SETICON, ICON_SMALL, imageHandle.Value);
+        }
+
+        fixed (char* nameLocal = iconPath)
+        {
+            var imageHandle = PInvoke.LoadImage(default,
+                nameLocal,
+                GDI_IMAGE_TYPE.IMAGE_ICON,
+                PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
+                PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
+                IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
+            PInvoke.SendMessage(hwnd, PInvoke.WM_SETICON, ICON_BIG, imageHandle.Value);
+        }
+    }
 
     public CustomWindow()
     {
+        _appWindow = GetAppWindowForCurrentWidow();
     }
 
     private AppWindow GetAppWindowForCurrentWidow()

@@ -1,8 +1,9 @@
-﻿using DMRecorder.Core.Contracts;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+
+using DMRecorder.Core.Contracts;
 using DMRecorder.Core.ViewModels;
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.ApplicationModel.Resources;
 
@@ -42,7 +43,9 @@ public partial class App : Application
     /// <param name="args">Details about the launch request and process.</param>
     protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
-        m_window = new MainWindow();
+        m_window = new MainWindow {
+            Icon = "Assets/dmrecorder.ico"
+        };
         m_window.Activate();
     }
 

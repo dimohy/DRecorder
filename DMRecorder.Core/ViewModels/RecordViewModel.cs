@@ -1,18 +1,21 @@
 ﻿namespace DMRecorder.Core.ViewModels;
 
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
 using DMRecorder.Core.Contracts;
 
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
 
 public partial class RecordViewModel : ObservableRecipient
 {
-
     private AudioRecorder _audioRecorder;
     //private readonly IResourceManager _reosurceManager;
     private readonly FilenameFormat _filenamePattern;
     private readonly ISettings _settings;
     private readonly IDispatcherQueue _dispatcherQueue;
+
+    [ObservableProperty]
+    private bool _isShowErrorMessage;
 
     [ObservableProperty]
     private RecordState _recordState;
@@ -118,16 +121,25 @@ public partial class RecordViewModel : ObservableRecipient
                     LastRecordFilename = RecordFilename;
 
                     _audioRecorder.RecordFilename = LastRecordFilename;
-                    _audioRecorder.Record(recorderState =>
-                    {
-                        RecordingObserver?.SendValue(recorderState.RecordValue);
 
-                        _dispatcherQueue.TryEnqueue(() =>
+                    try
+                    {
+                        _audioRecorder.Record(recorderState =>
                         {
-                            RecordingTime = recorderState.RunningTimeSpan;
-                            OnPropertyChanged(nameof(RecordingTimeValue));
+                            RecordingObserver?.SendValue(recorderState.RecordValue);
+
+                            _dispatcherQueue.TryEnqueue(() =>
+                            {
+                                RecordingTime = recorderState.RunningTimeSpan;
+                                OnPropertyChanged(nameof(RecordingTimeValue));
+                            });
                         });
-                    });
+                    }
+                    catch
+                    {
+                        IsShowErrorMessage = true;
+                        state = RecordState.Stop;
+                    }
 
                     break;
                 case RecordState.RecordPause:

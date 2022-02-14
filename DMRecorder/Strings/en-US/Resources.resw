@@ -120,6 +120,12 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>DMRecorder</value>
   </data>
+  <data name="errorMessage.Message" xml:space="preserve">
+    <value>Input Device</value>
+  </data>
+  <data name="errorMessage.Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
   <data name="Input.Text" xml:space="preserve">
     <value>Input</value>
   </data>
