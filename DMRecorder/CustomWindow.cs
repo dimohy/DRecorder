@@ -8,9 +8,11 @@ using WinRT.Interop;
 using Windows.UI;
 using Microsoft.UI;
 
-using Windows.Win32.Foundation;
-using Windows.Win32.UI.WindowsAndMessaging;
-using Windows.Win32;
+//using Windows.Win32.Foundation;
+//using Windows.Win32.UI.WindowsAndMessaging;
+//using Windows.Win32;
+using Windows.Foundation;
+
 
 public class CustomWindow : Window
 {
@@ -18,6 +20,17 @@ public class CustomWindow : Window
     private ElementTheme _appTheme;
     private AppWindow _appWindow;
 
+    public event TypedEventHandler<AppWindow, AppWindowClosingEventArgs> Closing
+    {
+        add
+        {
+            _appWindow.Closing += value;
+        }
+        remove
+        {
+            _appWindow.Closing -= value;
+        }
+    }
 
     public int Width
     {
@@ -60,10 +73,11 @@ public class CustomWindow : Window
     }
 
     public string Icon
-    {
+{
         set
         {
-            ModifyIcon(value);
+            _appWindow.SetIcon(value);
+            //ModifyIcon(value);
         }
     }
 
@@ -83,6 +97,9 @@ public class CustomWindow : Window
             _appTheme = value;
 
             var titleBar = _appWindow.TitleBar;
+            if (titleBar is null)
+                return;
+            
             if (_appTheme is ElementTheme.Light)
             {
                 titleBar.ForegroundColor = Colors.Black;
@@ -147,35 +164,35 @@ public class CustomWindow : Window
         }
     }
 
-    private unsafe void ModifyIcon(string iconPath)
-    {
-        var hwnd = (HWND)WindowNative.GetWindowHandle(this);
+    //private unsafe void ModifyIcon(string iconPath)
+    //{
+    //    var hwnd = (HWND)WindowNative.GetWindowHandle(this);
 
-        const int ICON_SMALL = 0;
-        const int ICON_BIG = 1;
+    //    const int ICON_SMALL = 0;
+    //    const int ICON_BIG = 1;
 
-        fixed (char* nameLocal = iconPath)
-        {
-            var imageHandle = PInvoke.LoadImage(default,
-                nameLocal,
-                GDI_IMAGE_TYPE.IMAGE_ICON,
-                PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
-                PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
-                IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
-                PInvoke.SendMessage(hwnd, PInvoke.WM_SETICON, ICON_SMALL, imageHandle.Value);
-        }
+    //    fixed (char* nameLocal = iconPath)
+    //    {
+    //        var imageHandle = PInvoke.LoadImage(default,
+    //            nameLocal,
+    //            GDI_IMAGE_TYPE.IMAGE_ICON,
+    //            PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
+    //            PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
+    //            IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
+    //            PInvoke.SendMessage(hwnd, PInvoke.WM_SETICON, ICON_SMALL, imageHandle.Value);
+    //    }
 
-        fixed (char* nameLocal = iconPath)
-        {
-            var imageHandle = PInvoke.LoadImage(default,
-                nameLocal,
-                GDI_IMAGE_TYPE.IMAGE_ICON,
-                PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
-                PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
-                IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
-            PInvoke.SendMessage(hwnd, PInvoke.WM_SETICON, ICON_BIG, imageHandle.Value);
-        }
-    }
+    //    fixed (char* nameLocal = iconPath)
+    //    {
+    //        var imageHandle = PInvoke.LoadImage(default,
+    //            nameLocal,
+    //            GDI_IMAGE_TYPE.IMAGE_ICON,
+    //            PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSMICON),
+    //            PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSMICON),
+    //            IMAGE_FLAGS.LR_LOADFROMFILE | IMAGE_FLAGS.LR_SHARED);
+    //        PInvoke.SendMessage(hwnd, PInvoke.WM_SETICON, ICON_BIG, imageHandle.Value);
+    //    }
+    //}
 
     public CustomWindow()
     {

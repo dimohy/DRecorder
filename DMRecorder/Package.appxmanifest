@@ -7,8 +7,8 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="003ad270-c801-4184-ab03-0d8a44c1ed82"
-    Publisher="CN=dimohy"
+    Name="003ad270-c801-4184-ab03-0d8a44c1ed83"
+    Publisher="CN=&quot;maumin Co.,Ltd.&quot;, O=&quot;maumin Co.,Ltd.&quot;, S=Gyeonggi-do, C=KR"
     Version="0.9.0.0" />
 
   <Properties>

@@ -60,4 +60,9 @@ public sealed partial class MainWindow : CustomWindow
     {
         ViewModel.DeleteLastRecordFile();
     }
+
+    private void MainWindow_Closing(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowClosingEventArgs args)
+    {
+        //args.Cancel = true;
+    }
 }

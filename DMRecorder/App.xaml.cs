@@ -53,7 +53,7 @@ public partial class App : Application
     {
         var s = new ServiceCollection();
 
-        s.AddSingleton<IResourceManager>(new ResourceManager());
+        s.AddSingleton<Core.Contracts.IResourceManager>(new ResourceManager());
 
         s.AddSingleton<IDispatcherQueue>(new DispatcherQueue(() => m_window.DispatcherQueue));
 
@@ -75,7 +75,7 @@ public partial class App : Application
 }
 
 
-public class ResourceManager : IResourceManager
+public class ResourceManager : Core.Contracts.IResourceManager
 {
     private readonly ResourceLoader _resLoader = new();
 
