@@ -1,0 +1,136 @@
+﻿<UserControl
+    x:Class="DRecorder.RecordPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:DRecorder.Converters"
+    xmlns:core="using:DRecorder.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:DRecorder"
+    xmlns:m="using:DRecorder.Extensions"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    IsTabStop="False"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:RecordStateEqualToBooleanConverter x:Key="RecordStateEqualToBooleanConverter" />
+
+        <converters:EqualToVisibilityConverter
+            x:Key="PlayingVisibilityConverter"
+            EqualVisibility="Collapsed"
+            NotEqualVisibility="Visible"
+            Value="{m:BooleanValue Value=True}" />
+
+        <converters:EqualToVisibilityConverter
+            x:Key="RecordingVisibilityConverter"
+            EqualVisibility="Visible"
+            NotEqualVisibility="Collapsed"
+            Value="{m:BooleanValue Value=True}" />
+    </UserControl.Resources>
+
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Viewbox Grid.Row="0" Width="190">
+            <CommandBar
+                Background="Transparent"
+                IsOpen="False"
+                OverflowButtonVisibility="Collapsed">
+                <!--  Play  -->
+                <AppBarToggleButton
+                    Command="{x:Bind ViewModel.RecordCommand}"
+                    IsChecked="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=Play, Mode=OneWay}"
+                    IsCompact="True">
+                    <AppBarToggleButton.CommandParameter>
+                        <core:RecordState>Play</core:RecordState>
+                    </AppBarToggleButton.CommandParameter>
+                    <AppBarToggleButton.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe768;" />
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+                <!--  Stop  -->
+                <AppBarButton Command="{x:Bind ViewModel.RecordCommand}" IsCompact="True">
+                    <AppBarButton.CommandParameter>
+                        <core:RecordState>Stop</core:RecordState>
+                    </AppBarButton.CommandParameter>
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe71a;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+
+                <AppBarSeparator IsCompact="True" />
+
+                <!--  Record  -->
+                <AppBarToggleButton
+                    Command="{x:Bind ViewModel.RecordCommand}"
+                    IsChecked="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=Record, Mode=OneWay}"
+                    IsCompact="True">
+                    <AppBarToggleButton.CommandParameter>
+                        <core:RecordState>Record</core:RecordState>
+                    </AppBarToggleButton.CommandParameter>
+                    <AppBarToggleButton.Icon>
+                        <FontIcon
+                            FontFamily="Segoe Fluent Icons"
+                            Foreground="OrangeRed"
+                            Glyph="&#xe7c8;" />
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+                <!--  Pause  -->
+                <AppBarToggleButton
+                    Command="{x:Bind ViewModel.RecordCommand}"
+                    IsChecked="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=RecordPause|PlayPause, Mode=OneWay}"
+                    IsCompact="True">
+                    <AppBarToggleButton.CommandParameter>
+                        <core:RecordState>RecordPause</core:RecordState>
+                    </AppBarToggleButton.CommandParameter>
+                    <AppBarToggleButton.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe769;" />
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+            </CommandBar>
+        </Viewbox>
+
+        <Slider
+            Grid.Row="1"
+            VerticalAlignment="Center"
+            IsEnabled="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=Play|PlayPause, Mode=OneWay}"
+            Maximum="{x:Bind ViewModel.TotalPlayTime, Mode=OneWay}"
+            Minimum="0"
+            Visibility="{x:Bind ViewModel.IsRecording, Mode=OneWay, Converter={StaticResource PlayingVisibilityConverter}}"
+            Value="{x:Bind ViewModel.RecordingTimeValue, Mode=OneWay}" />
+        <local:RecordingVisualizer
+            x:Name="recordingVisualizer"
+            Grid.Row="1"
+            Visibility="{x:Bind ViewModel.IsRecording, Mode=OneWay, Converter={StaticResource RecordingVisibilityConverter}}" />
+        <TextBlock
+            Grid.Row="2"
+            HorizontalAlignment="Right"
+            FontSize="12"
+            Text="{x:Bind ViewModel.RecordingTime, Mode=OneWay, Converter={StaticResource stringFormatConverter}, ConverterParameter='{}{0:hh\\\\:mm\\\\:ss\\\\.f}'}" />
+        <TextBlock
+            Grid.Row="3"
+            Margin="0,8,0,0"
+            FontSize="12"
+            Text="{x:Bind ViewModel.RecordFilename, Mode=OneWay}" />
+
+        <InfoBar
+            x:Uid="errorMessage"
+            Grid.Row="0"
+            MaxHeight="30"
+            IsOpen="{x:Bind ViewModel.IsShowErrorMessage, Mode=TwoWay}"
+            Severity="Error">
+            <InfoBar.CloseButtonStyle>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="16" />
+                    <Setter Property="Height" Value="16" />
+                    <Setter Property="Margin" Value="0,7,3,7" />
+                    <Setter Property="Padding" Value="0" />
+                </Style>
+            </InfoBar.CloseButtonStyle>
+        </InfoBar>
+    </Grid>
+</UserControl>

@@ -1,0 +1,108 @@
+﻿<local:CustomWindow
+    x:Class="DRecorder.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:DRecorder"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Presenter="CompactOverlay"
+    WindowLocation="PrimaryCenter"
+    Width="210"
+    Height="180"
+    mc:Ignorable="d"
+    Closing="MainWindow_Closing"
+    >
+
+    <Grid>
+        <!--  레코드 패널  -->
+        <Grid
+            x:Name="recordPanel"
+            Padding="4"
+            RowSpacing="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <local:RecordPanel Grid.Row="0" />
+
+            <StackPanel
+                Grid.Row="1"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="settingButton"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="settingButton_Click">
+                    <FontIcon
+                        FontFamily="Segoe Fluent Icons"
+                        FontSize="12"
+                        Glyph="&#xe713;" />
+                </Button>
+                <Button
+                    x:Name="openFolderButton"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="openFolderButton_Click">
+                    <FontIcon
+                        FontFamily="Segoe Fluent Icons"
+                        FontSize="12"
+                        Glyph="&#xe838;" />
+                </Button>
+                <Button
+                    x:Name="deleteFileButton"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="deleteFileButton_Click">
+                    <FontIcon
+                        FontFamily="Segoe Fluent Icons"
+                        FontSize="12"
+                        Glyph="&#xe74d;" />
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!--  세팅 패널  -->
+        <Border
+            x:Name="settingPanel"
+            Margin="4"
+            Padding="4"
+            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+            Visibility="Collapsed">
+            <Grid RowSpacing="4">
+                <Grid.RowDefinitions>
+                    <!--<RowDefinition Height="Auto" />-->
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--<Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Uid="Settings" Grid.Column="0" VerticalAlignment="Center" />
+                </Grid>-->
+                <!--<local:SettingsPanel Grid.Row="1" />-->
+
+                <local:SettingsPanel />
+
+                <Button
+                    x:Name="settingCloseButton"
+                    Width="16"
+                    Padding="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="settingCloseButton_Click">
+                    <FontIcon
+                        FontFamily="Segoe Fluent Icons"
+                        FontSize="12"
+                        Glyph="&#xe8bb;" />
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+</local:CustomWindow>

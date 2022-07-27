@@ -1,8 +1,8 @@
 ![image](https://user-images.githubusercontent.com/58620778/153425356-f81520e3-4761-4544-a8a3-39a873943f3d.png)
 
-# DMRecorder
+# DRecorder
 
-DMRecorder는 Windows App SDK 및 WinUI 3을 학습하기 위해 만든 간단한 녹음기 애플리케이션입니다. DMRecorder를 통해 다음의 Windows App SDK 및 WinUI 3의 기능을 확인할 수 있습니다.
+DRecorder는 Windows App SDK 및 WinUI 3을 학습하기 위해 만든 간단한 녹음기 애플리케이션입니다. DRecorder를 통해 다음의 Windows App SDK 및 WinUI 3의 기능을 확인할 수 있습니다.
 
 
 ## 컴파일 환경
@@ -138,7 +138,7 @@ WinUI 3은 타이틀바의 접근을 직접 할 수 없습니다. 전신이 UWP�
     }
 ```
 
-DMRecorder는 `Window`를 재정의한 `CustomWindow`로 쉽게 `AppWindow`에 접근하는 코드를 보여줍니다.
+DRecorder는 `Window`를 재정의한 `CustomWindow`로 쉽게 `AppWindow`에 접근하는 코드를 보여줍니다.
 
 
 ## WinUI 3 XAML 컨트롤
