@@ -43,20 +43,18 @@
                 <!--  Play  -->
                 <AppBarToggleButton
                     Command="{x:Bind ViewModel.RecordCommand}"
+                    CommandParameter="Play"
                     IsChecked="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=Play, Mode=OneWay}"
                     IsCompact="True">
-                    <AppBarToggleButton.CommandParameter>
-                        <core:RecordState>Play</core:RecordState>
-                    </AppBarToggleButton.CommandParameter>
                     <AppBarToggleButton.Icon>
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe768;" />
                     </AppBarToggleButton.Icon>
                 </AppBarToggleButton>
                 <!--  Stop  -->
-                <AppBarButton Command="{x:Bind ViewModel.RecordCommand}" IsCompact="True">
-                    <AppBarButton.CommandParameter>
-                        <core:RecordState>Stop</core:RecordState>
-                    </AppBarButton.CommandParameter>
+                <AppBarButton
+                    Command="{x:Bind ViewModel.RecordCommand}"
+                    CommandParameter="Stop"
+                    IsCompact="True">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe71a;" />
                     </AppBarButton.Icon>
@@ -67,11 +65,9 @@
                 <!--  Record  -->
                 <AppBarToggleButton
                     Command="{x:Bind ViewModel.RecordCommand}"
+                    CommandParameter="Record"
                     IsChecked="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=Record, Mode=OneWay}"
                     IsCompact="True">
-                    <AppBarToggleButton.CommandParameter>
-                        <core:RecordState>Record</core:RecordState>
-                    </AppBarToggleButton.CommandParameter>
                     <AppBarToggleButton.Icon>
                         <FontIcon
                             FontFamily="Segoe Fluent Icons"
@@ -82,11 +78,9 @@
                 <!--  Pause  -->
                 <AppBarToggleButton
                     Command="{x:Bind ViewModel.RecordCommand}"
+                    CommandParameter="RecordPause"
                     IsChecked="{x:Bind ViewModel.RecordState, Converter={StaticResource RecordStateEqualToBooleanConverter}, ConverterParameter=RecordPause|PlayPause, Mode=OneWay}"
                     IsCompact="True">
-                    <AppBarToggleButton.CommandParameter>
-                        <core:RecordState>RecordPause</core:RecordState>
-                    </AppBarToggleButton.CommandParameter>
                     <AppBarToggleButton.Icon>
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe769;" />
                     </AppBarToggleButton.Icon>
@@ -102,15 +96,16 @@
             Minimum="0"
             Visibility="{x:Bind ViewModel.IsRecording, Mode=OneWay, Converter={StaticResource PlayingVisibilityConverter}}"
             Value="{x:Bind ViewModel.RecordingTimeValue, Mode=OneWay}" />
+        <TextBlock
+            Grid.Row="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            FontSize="12"
+            Text="{x:Bind ViewModel.RecordingTime, Mode=OneWay, Converter={StaticResource stringFormatConverter}, ConverterParameter='{}{0:hh\\\\:mm\\\\:ss\\\\.f}'}" />
         <local:RecordingVisualizer
             x:Name="recordingVisualizer"
             Grid.Row="1"
             Visibility="{x:Bind ViewModel.IsRecording, Mode=OneWay, Converter={StaticResource RecordingVisibilityConverter}}" />
-        <TextBlock
-            Grid.Row="2"
-            HorizontalAlignment="Right"
-            FontSize="12"
-            Text="{x:Bind ViewModel.RecordingTime, Mode=OneWay, Converter={StaticResource stringFormatConverter}, ConverterParameter='{}{0:hh\\\\:mm\\\\:ss\\\\.f}'}" />
         <TextBlock
             Grid.Row="3"
             Margin="0,8,0,0"

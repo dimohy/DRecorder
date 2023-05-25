@@ -44,7 +44,7 @@ public partial class App : Application
     protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
         m_window = new MainWindow {
-            Icon = "Assets/DRecorder.ico"
+            //Icon = "Assets/DRecorder.ico"
         };
         m_window.Activate();
     }

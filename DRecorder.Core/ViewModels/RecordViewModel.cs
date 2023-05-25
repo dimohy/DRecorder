@@ -29,7 +29,7 @@ public partial class RecordViewModel : ObservableRecipient
     [ObservableProperty]
     private double _totalPlayTime;
 
-    public double RecordingTimeValue => _recordingTime.TotalSeconds;
+    public double RecordingTimeValue => RecordingTime.TotalSeconds;
 
     public bool IsRecording => _audioRecorder.IsRecording;
 
@@ -38,7 +38,7 @@ public partial class RecordViewModel : ObservableRecipient
         get => LastRecordFilename is not null && File.Exists(Path.Combine(RecordPath, LastRecordFilename));
     }
 
-    public RelayCommand<RecordState> RecordCommand { get; }
+    public RelayCommand<string> RecordCommand { get; }
 
     public ISettings Settings => _settings;
 
@@ -80,8 +80,10 @@ public partial class RecordViewModel : ObservableRecipient
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         _audioRecorder = new(RecordPath, settings.RecordDriver, settings.RecordSampleRate);
 
-        RecordCommand = new(state =>
+        RecordCommand = new(stateText =>
         {
+            var state = Enum.Parse<RecordState>(stateText!);
+
             switch (state)
             {
                 case RecordState.Play:
@@ -157,7 +159,7 @@ public partial class RecordViewModel : ObservableRecipient
 
             RecordCommand!.NotifyCanExecuteChanged();
             OnPropertyChanged(nameof(IsRecording));
-        }, state => state switch
+        }, state => Enum.Parse<RecordState>(state!) switch
             {
                 RecordState.Play => RecordState is RecordState.Stop && CanPlay is true,
                 RecordState.Stop => RecordState is RecordState.Play or RecordState.Record or RecordState.RecordPause or RecordState.PlayPause,
@@ -167,22 +169,24 @@ public partial class RecordViewModel : ObservableRecipient
             });
     }
 
-    public void DeleteLastRecordFile()
+    public bool DeleteLastRecordFile()
     {
         if (LastRecordFilename is null)
         {
-            return;
+            return false;
         }
 
         var filename = Path.Combine(RecordPath, LastRecordFilename);
         if (File.Exists(filename) is false)
         {
-            return;
+            return false;
         }
 
         File.Delete(filename);
 
         OnPropertyChanged(nameof(RecordFilename));
+
+        return true;
     }
 
     public void RefreshDriver()
